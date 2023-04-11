@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import { useState } from 'react';
 import Calendar from './src/components/Calendar';
 import Habit from './src/components/Habit';
 import Streak from './src/components/Streak';
 import AddHabitScreen from './src/AddHabitScreen';
 import HomeScreen from './src/HomeScreen';
-
+import * as Haptics from 'expo-haptics';
 
 
 export default function App() {
@@ -28,7 +28,9 @@ export default function App() {
   const [habits, setHabits] = useState(dummyHabits);
   const [showAddHabitScreen, setShowAddHabitScreen] = useState(false);
 
-  const toggleAddHabitScreen = () => {
+  const toggleAddHabitScreen = async() => {
+    Haptics.impactAsync();
+    
     setShowAddHabitScreen(!showAddHabitScreen);
   };
 
@@ -70,16 +72,22 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <Button title="Add Habit" onPress={toggleAddHabitScreen} />
+        <SafeAreaView>
+        <TouchableOpacity style={styles.button} onPress={toggleAddHabitScreen}>
+          {showAddHabitScreen ? <Text style={styles.buttonText}>Home</Text> :<Text style={styles.buttonText}>Add Habit</Text>} 
+        </TouchableOpacity>
+        </SafeAreaView>
       </View>
       {showAddHabitScreen ? (
-        <AddHabitScreen onAddHabit={handleAddHabit} />) : (
-          <HomeScreen
-            habits={habits}
-            onToggleHabit={handleToggleHabit}
-            onDateChange={handleDateChange}
-          />
-        )}
+        <AddHabitScreen onAddHabit={handleAddHabit} />
+      ) : (
+        <HomeScreen
+          habits={habits}
+          onToggleHabit={handleToggleHabit}
+          onDateChange={handleDateChange}
+        />
+        
+      )}
       <StatusBar style="auto" />
     </View>
   );
@@ -88,12 +96,28 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#00ffff87',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 10,
+    padding: 10,
   },
   buttonContainer: {
-    paddingTop: 20, // Adjust this value to move the button down
+    marginBottom: 20,
   },
+  button: {
+    backgroundColor: '#ff5733',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+habitContainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 10,
+},
 });

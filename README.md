@@ -9,6 +9,8 @@ as my first foray into react native I decided to create a simple habit tracking 
 - Create and track habits
 - View habits in calendar or streak format
 - Receive push notifications to remind users to complete their habits
+- Haptic Feedback
+- Dynamic Date retrieval.
 
 ### installation
 
@@ -31,4 +33,3 @@ as my first foray into react native I decided to create a simple habit tracking 
 ### React Native UML
 
 ![React UML](./assets/class-41-401d51.png)
-

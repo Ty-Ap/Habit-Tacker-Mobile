@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Checkbox, Text } from 'react-native-paper';
+import * as Haptics from 'expo-haptics';
 
 const Habit = ({ habit, onToggle }) => {
   const [checked, setChecked] = useState(habit.completed);
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
+    await Haptics.selectionAsync();
+
     setChecked(!checked);
     const updatedHabit = {
       ...habit,
@@ -18,10 +21,12 @@ const Habit = ({ habit, onToggle }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.habitName}>{habit.name}</Text>
-      <Checkbox
-        status={checked ? 'checked' : 'unchecked'}
-        onPress={handleToggle}
-      />
+      <TouchableOpacity style={styles.checkboxWrapper} onPress={handleToggle}>
+        <Checkbox
+          status={checked ? 'checked' : 'unchecked'}
+          color='#ff1493'
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -35,6 +40,11 @@ const styles = StyleSheet.create({
   habitName: {
     fontSize: 16,
   },
+  checkboxWrapper: {
+    borderRadius: 4,
+    backgroundColor: '#ffc107',
+  },
+
 });
 
 export default Habit;

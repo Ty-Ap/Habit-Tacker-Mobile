@@ -9,7 +9,7 @@ const HomeScreen = ({ habits, onToggleHabit, onDateChange }) => {
     <View style={styles.container}>
       <Calendar onDateChange={onDateChange} />
       {habits.map((habit) => (
-        <View key={habit.id}>
+        <View key={habit.id}> 
           <Habit habit={habit} onToggle={() => onToggleHabit(habit.id)} />
           <Streak habit={habit} />
         </View>
